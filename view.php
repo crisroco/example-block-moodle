@@ -25,7 +25,7 @@ print $OUTPUT->header();
   echo '<br><br><br><br><br><br>';
   echo 'reporte';
 	$semana  = array('hola'=>'hola2');
-	print(html_writer::tag('select', get_string('scorm', 'block_inlider_report_challenge'), $semana));
+	print(html_writer::select($semana , 'choosenumber', 'hola'));
 
    // print(add_action_buttons(false, 'Reporte'));
 print $OUTPUT->footer();
