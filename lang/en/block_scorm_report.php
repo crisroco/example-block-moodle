@@ -29,4 +29,5 @@
 
 
 $string['pluginname'] = 'Reporte de Scorm';
+$string['scorm'] = 'Scorms';
 

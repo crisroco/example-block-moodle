@@ -1,4 +1,5 @@
 <?php
+
 class block_scorm_report extends block_base {
 	function init() {
     	$this->title = get_string('pluginname', 'block_scorm_report');
