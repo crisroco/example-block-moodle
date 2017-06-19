@@ -140,7 +140,7 @@ $phpexcel->setActiveSheetIndex(0);
 
 ////###################DATOS DE LOS ALUMNOS######################
 
-  $datos_alumno = get_report_data('3', '2');
+  $datos_alumno = get_report_data('64', '22');
   $tr_user_data = 11;
   $cont = 1;
   //Recorrer array con todos los datos
@@ -175,11 +175,11 @@ $phpexcel->setActiveSheetIndex(0);
   			//recorre el array que contiene las respuestas 
   			foreach ($valu as $llave => $valor) {
   				//si la llave tiene lo siguientes valores los almacenará en un array temporal()
-  				if ($valor->name == 'P1' || $valor->name == 'P2' || $valor->name == 'P11') {
-  					$answertemp[$valor->name] = $valor->answer;
+  				//if ($valor->name == 'P1' || $valor->name == 'P2' || $valor->name == 'P11') {
+  					//$answertemp[$valor->name] = $valor->answer;
 
   				//imprime en el excel las respuestas	
-  				}else{
+  				//}else{
   					//imprime los titulos de cada respuesta dependiendo del estado del flag($title_answer_statet)
   					if ($title_answer_statet) {
   						$sheet->setCellValueByColumnAndRow($td_user_answer,10, $valor->name);
@@ -208,7 +208,7 @@ $phpexcel->setActiveSheetIndex(0);
 
 	      		$sheet->setCellValueByColumnAndRow($td_user_answer,$tr_user_data, $valor->answer);
 	      		$td_user_answer++;
-  				}				
+  				//}				
   			}
 
   			//estilos apra todos los datos de los alumnos
@@ -220,7 +220,7 @@ $phpexcel->setActiveSheetIndex(0);
 			$sheet->getStyle('A11:T'.$tr_user_data)->applyFromArray($styleArray);
 
 
-  			$title_answer_statet2 = true;
+  			/*$title_answer_statet2 = true;
   			//recorre el array teporal generado anteriormentePHP_EOL
 			foreach ($answertemp as $llave => $valor) {
 				if ($llave == 'P1') {
@@ -254,7 +254,7 @@ $phpexcel->setActiveSheetIndex(0);
 					$sheet->setCellValueByColumnAndRow($td_user_answer,$tr_user_data, $valor);
 					$td_user_answer++;
 				}
-			}
+			}*/
 
 
 
@@ -266,7 +266,7 @@ $phpexcel->setActiveSheetIndex(0);
   	}
 
   	//asigna el alto a la fila dependiendo de la cantidad de datos que tenga
-  	$sheet->getRowDimension($tr_user_data)->setRowHeight($alto_celda);
+  	//$sheet->getRowDimension($tr_user_data)->setRowHeight($alto_celda);
   	$tr_user_data++;
   	$cont++;
   }

@@ -28,11 +28,11 @@ $PAGE->set_heading($course->fullname);
 $list_scorms = get_scorms($courseId);
 $courseGroup = get_course_groups($courseId);
 $list_scorms_enabled = get_mod_availability($courseId);
-$user_list = get_report_data('3', '2');
+$user_list = get_report_data('64', '22');
 //$userRol = get_user_rol($userId,$courseId);
 
 
-/*echo "<pre>";
+echo "<pre>";
    print_r($courseGroup);
 echo "</pre>";
 
@@ -46,7 +46,7 @@ echo "</pre>";
 
 echo "<pre>";
 print_r($user_list);
-echo "</pre>";*/
+echo "</pre>";
 
 print $OUTPUT->header();
 $PAGE->requires->js_call_amd('block_scorm_report/module', 'init');
