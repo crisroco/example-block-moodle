@@ -182,8 +182,9 @@ function get_report_data($groupId, $scormId){
 
     $user_data_scorm = $DB->get_records_sql($sql);*/
 
-    $sql = "SELECT sct.id, gm.id as curosmod_id, gm.userid, sct.value, u.username, u.lastname, u.firstname, u.institution, u.email
+    $sql = "SELECT u.id, sct.id as sct_id, gm.id as curosmod_id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname, sct.value
         FROM {groups_members} gm
+        INNER JOIN {groups} g ON g.id = gm.groupid
         INNER JOIN {scorm_scoes_track} sct ON sct.userid = gm.userid
         INNER JOIN {user} u ON sct.userid = u.id
 		WHERE gm.groupid = " . $groupId . " AND sct.scormid = " . $scormId. " AND sct.element = 'cmi.suspend_data'";

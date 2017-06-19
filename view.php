@@ -28,7 +28,7 @@ $PAGE->set_heading($course->fullname);
 $list_scorms = get_scorms($userId,$courseId);
 $courseGroup = get_course_groups($courseId);
 $list_scorms_enabled = get_mod_availability($courseId);
-$user_list = get_report_data('65', '23');
+$user_list = get_report_data('3', '2');
 //$userRol = get_user_rol($userId,$courseId);
 
 
