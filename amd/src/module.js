@@ -1,8 +1,8 @@
 define(['jquery'], function($) {
   function init(){
     $(document).ready(
-      /*function(){
-        $(function update() {
+      function(){
+       /* $(function update() {
 
            $(".mform .btn").click( function (e) {
 
@@ -34,19 +34,20 @@ define(['jquery'], function($) {
 
        });
       }*/
-      $("#menugroup").change(function () {
-           $("#menugroup option:selected").each(function () {
-            groupid=$(this).val();
-            courseid=$("#courseidd").val();
-            console.log(groupid);
-            console.log(courseid);
-            $.post("/blocks/scorm_report/scormList.php", { groupid: groupid, courseid:courseid }, function(data){
-            $("#menuscorm").html(data);
-            });   
+        $("#menugroup").change(function () {
+             $("#menugroup option:selected").each(function () {
+              groupid=$(this).val();
+              courseid=$("#courseidd").val();
+              console.log(groupid);
+              console.log(courseid);
+              $.post("/blocks/scorm_report/scormList.php", { groupid: groupid, courseid:courseid }, function(data){
+              $("#menuscorm").html(data);
+              });                   
+          });
+        })
 
-                
-        });
-      })
+      }
+
 
     );
   }

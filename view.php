@@ -32,7 +32,7 @@ $user_list = get_report_data('3', '2');
 //$userRol = get_user_rol($userId,$courseId);
 
 
-echo "<pre>";
+/*echo "<pre>";
    print_r($courseGroup);
 echo "</pre>";
 
@@ -46,7 +46,7 @@ echo "</pre>";
 
 echo "<pre>";
 print_r($user_list);
-echo "</pre>";
+echo "</pre>";*/
 
 print $OUTPUT->header();
 $PAGE->requires->js_call_amd('block_scorm_report/module', 'init');
@@ -57,5 +57,6 @@ $PAGE->requires->js_call_amd('block_scorm_report/module', 'init');
 	print(html_writer::select($courseGroup , 'group', 'group'));
    print(html_writer::select($list_scorms , 'scorm', 'scorm'));	
    echo '<input id="courseidd" type="hidden" name="courseid"  value="'. $courseId .'"> ' ;
+   echo '<input type="button"  onclick="" value="Descargar Reporte"/>';
    // print(add_action_buttons(false, 'Reporte'));
 print $OUTPUT->footer();
