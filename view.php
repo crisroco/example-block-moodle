@@ -25,7 +25,7 @@ $PAGE->set_pagelayout('course');
 $PAGE->set_heading($course->fullname);
 
 // Get information 
-$list_scorms = get_scorms($userId,$courseId);
+$list_scorms = get_scorms($courseId);
 $courseGroup = get_course_groups($courseId);
 $list_scorms_enabled = get_mod_availability($courseId);
 $user_list = get_report_data('3', '2');
@@ -49,13 +49,13 @@ print_r($user_list);
 echo "</pre>";
 
 print $OUTPUT->header();
-  
+$PAGE->requires->js_call_amd('block_scorm_report/module', 'init');
    
 
-	//$semana  = array('hola'=>'hola2');
+	
   echo '<form id="searchform" action="search.php" method="get">';
 	print(html_writer::select($courseGroup , 'group', 'group'));
-	print(html_writer::select($list_scorms , 'scorm', 'scorm'));
-  echo '</form>';
+   print(html_writer::select($list_scorms , 'scorm', 'scorm'));	
+   echo '<input id="courseidd" type="hidden" name="courseid"  value="'. $courseId .'"> ' ;
    // print(add_action_buttons(false, 'Reporte'));
 print $OUTPUT->footer();

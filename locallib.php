@@ -16,7 +16,7 @@ require_login();
 /**
 *Retorna la lista de scrom de un curso
 */ 
-function get_scorms($userId,$courseId){
+function get_scorms($courseId){
 	global $DB;
 	//$list_scorms = get_course_mods($courseId); 
 	/*$sql = "SELECT cm.id, cm.visible, cm.module, sc.id as scormid, sc.name, cm.instance, cm.section, cm.availability, cm.availability
