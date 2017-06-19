@@ -140,7 +140,7 @@ $phpexcel->setActiveSheetIndex(0);
 
 ////###################DATOS DE LOS ALUMNOS######################
 
-  $datos_alumno = get_report_data('64', '22');
+  $datos_alumno = get_report_data($_GET['group'], $_GET['scorm'], $_GET['courseid']);
   $tr_user_data = 11;
   $cont = 1;
   //Recorrer array con todos los datos

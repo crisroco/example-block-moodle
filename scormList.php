@@ -17,12 +17,16 @@ $allscorms = get_scorms($courseid);
 
 $options='';
 
-foreach ($list_scorms[$groupid] as $key => $value) {
-   $options .= '<option value="'.$value.'">'.$allscorms[$value].'</option>';
+if ($groupid == 'todos') {
+    foreach ($allscorms as $key => $value) {
+        $options .= '<option value="'.$key.'">'.$value.'</option>';
+    }   
+} else {
+    foreach ($list_scorms[$groupid] as $key => $value) {
+       $options .= '<option value="'.$value.'">'.$allscorms[$value].'</option>';
+    }
+
 }
 
-
-   
-
-   print_r($options);
+print_r($options);
 
