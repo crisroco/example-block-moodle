@@ -18,8 +18,8 @@ $allscorms = get_scorms($courseid);
 $options='';
 
 if ($groupid == 'todos') {
-    foreach ($allscorms as $key => $value) {
-        $options .= '<option value="'.$key.'">'.$value.'</option>';
+    foreach ($list_scorms['all'] as $key => $value) {
+       $options .= '<option value="'.$value.'">'.$allscorms[$value].'</option>';
     }   
 } else {
     foreach ($list_scorms[$groupid] as $key => $value) {
@@ -29,4 +29,5 @@ if ($groupid == 'todos') {
 }
 
 print_r($options);
+
 
