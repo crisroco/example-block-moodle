@@ -6,8 +6,9 @@ require_once($CFG->libdir.'/modinfolib.php');
 require_once($CFG->libdir.'/formslib.php');
 require_once("$CFG->dirroot/course/lib.php");
 
-global $DB, $CFG, $PAGE, $OUTPUT, $USER;
+global $DB, $CFG, $PAGE, $OUTPUT, $USER, $COURSE;
 
+$coursecontext = context_course::instance($COURSE->id);
 require_login();
 
 //$categoria = required_param('categoria', PARAM_INT);
@@ -170,8 +171,8 @@ function get_mod_availability($courseId){
  */
 
 function get_report_data($groupId, $scormId, $courseid){
-	global $DB;
-
+	global $DB, $COURSE;
+  //$coursecontext = context_course::instance($COURSE->id);  
   
   $restriction_group = "gm.groupid = ".$groupId;
   // Case I want all scorm that not is restricted by groups
@@ -179,32 +180,62 @@ function get_report_data($groupId, $scormId, $courseid){
     $restriction_group = 'true';
   }
 
-  $sql = " SELECT u.id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname, sct.value
+  $sql = " SELECT u.id as userid, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname, sct.value
             FROM {groups_members} gm
             INNER JOIN {groups} g ON g.id = gm.groupid
             INNER JOIN {scorm_scoes_track} sct ON sct.userid = gm.userid
             INNER JOIN {user} u ON sct.userid = u.id
-	          WHERE ".$restriction_group." AND sct.scormid = ".$scormId." AND sct.element = 'cmi.suspend_data'";
+	          WHERE ".$restriction_group." AND sct.scormid = ".$scormId." AND sct.element = 'cmi.suspend_data' 
+            ORDER BY u.lastname ASC";
 
   $user_list = $DB->get_records_sql($sql);
 
+if ($groupId !== 'todos') {
+ 
+  
   $sql = "SELECT gm.userid, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname 
             FROM {groups_members} gm
             INNER JOIN {groups} g ON g.id = gm.groupid
-            INNER JOIN {user} u ON u.id = gm.userid
-            WHERE gm.groupid = " . $groupId;
+            INNER JOIN {user} u ON u.id = gm.userid                
+            INNER JOIN {context} ct ON g.courseid=ct.instanceid
+            INNER JOIN {role_assignments} ra ON ra.userid = u.id AND ra.contextid=ct.id
+            INNER JOIN {role} r ON r.id = ra.roleid 
+            WHERE ra.roleid = 5 AND gm.groupid = " . $groupId;
+           // WHERE ra.roleid = 5 AND gm.groupid = " . $groupId . " AND g.courseid =". $courseid;
 
     $user_lis = $DB->get_records_sql($sql);
 
     
-  foreach ($user_lis as $key => $value) {
-    
-    $value->value = '';  
-    if (isset($user_list[$key])) {
-      continue;
-    }
-    $user_list[$key] =  $value;
+}
+else{
+  $sql = "SELECT DISTINCT u.id, u.username, u.lastname, u.firstname, u.institution, u.email
+  FROM mdl_user u
+  JOIN mdl_user_enrolments ue ON ue.userid = u.id
+  JOIN mdl_enrol e ON e.id = ue.enrolid
+  JOIN mdl_role_assignments ra ON ra.userid = u.id
+  JOIN mdl_context ct ON ct.id = ra.contextid
+  AND ct.contextlevel =50
+  JOIN mdl_course c ON c.id = ct.instanceid
+  AND e.courseid = c.id
+  JOIN mdl_role r ON r.id = ra.roleid
+  AND r.shortname =  'student'
+  WHERE  courseid = ".$courseid;
+
+  $user_lis = $DB->get_records_sql($sql);
+
+}
+foreach ($user_lis as $key => $value) {
+  
+  if (isset($user_list[$key])) {
+    continue;
   }
+  if (!isset($user_list['groupname'])) {
+    $value->groupname = '';  
+  }
+  $value->value = '';  
+  $user_list[$key] =  $value;
+}
+  
   
 /*
   $sql = " SELECT u.id, gm.id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name
@@ -229,7 +260,7 @@ function get_report_data($groupId, $scormId, $courseid){
   }
 */
   //var_dump($user_list);
-  return   $user_list;
+  return    $user_list;
 
 }
 

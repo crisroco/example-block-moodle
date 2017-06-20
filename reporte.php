@@ -154,7 +154,7 @@ $phpexcel->setActiveSheetIndex(0);
   	foreach ($value as $ke => $valu) { 
 
   		//si la llave tiene estos valores salta al siguiente
-  		if ($ke == 'id' || $ke == 'curosmod_id' || $ke == 'sct_id') {
+  		if ($ke == 'userid' || $ke == 'curosmod_id' || $ke == 'sct_id') {
   		continue;
   		
   		//imprime los datos de los alumnos 			
@@ -164,7 +164,7 @@ $phpexcel->setActiveSheetIndex(0);
 	      $td_user_data++;
 	   
 	   //imprime las respuestas de los alumnos   
-  		}elseif ($ke == 'value') {
+  		}elseif ($ke == 'value' && $valu !== '') {
   			
   			$answertemp = array();
   			$td_user_answer = 9;
