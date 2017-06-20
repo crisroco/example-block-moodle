@@ -179,7 +179,7 @@ function get_report_data($groupId, $scormId, $courseid){
     $restriction_group = 'true';
   }
 
-  $sql = " SELECT u.id, sct.id as sct_id, gm.id as curosmod_id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname, sct.value
+  $sql = " SELECT u.id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname, sct.value
             FROM {groups_members} gm
             INNER JOIN {groups} g ON g.id = gm.groupid
             INNER JOIN {scorm_scoes_track} sct ON sct.userid = gm.userid
@@ -187,6 +187,25 @@ function get_report_data($groupId, $scormId, $courseid){
 	          WHERE ".$restriction_group." AND sct.scormid = ".$scormId." AND sct.element = 'cmi.suspend_data'";
 
   $user_list = $DB->get_records_sql($sql);
+
+  $sql = "SELECT gm.userid, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname 
+            FROM {groups_members} gm
+            INNER JOIN {groups} g ON g.id = gm.groupid
+            INNER JOIN {user} u ON u.id = gm.userid
+            WHERE gm.groupid = " . $groupId;
+
+    $user_lis = $DB->get_records_sql($sql);
+
+    
+  foreach ($user_lis as $key => $value) {
+    
+    $value->value = '';  
+    if (isset($user_list[$key])) {
+      continue;
+    }
+    $user_list[$key] =  $value;
+  }
+  
 /*
   $sql = " SELECT u.id, gm.id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name
             FROM {groups_members} gm

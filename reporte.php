@@ -270,6 +270,9 @@ $phpexcel->setActiveSheetIndex(0);
   	$tr_user_data++;
   	$cont++;
   }
+  /*echo "<pre>";
+  	print_r($datos_alumno);
+  echo "</pre>";*/
 ////###################FIN  DATOS DE LOS ALUMNOS######################
 
 $writer = PHPExcel_IOFactory::createWriter($phpexcel, 'Excel2007');
