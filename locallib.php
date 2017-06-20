@@ -161,38 +161,56 @@ function get_mod_availability($courseId){
     return $gruposAll;
 }
 
-function get_report_data($groupId, $scormId){
+/**
+ *  Get information of all alumns that belongs to a specific group and specific scorm
+ *
+ *  @param {string} groupId - id group and if there aren't group this value is 'all'
+ *  @param {int} scormId - id scorm
+ *  @return {object}
+ */
+
+function get_report_data($groupId, $scormId, $courseid){
 	global $DB;
 
-	//lista alumnos por grupo
-	/*$sql = "SELECT gm.id, gm.userid
-        FROM {groups_members} gm
-		WHERE gm.groupid = " . $groupId;
+  
+  $restriction_group = "gm.groupid = ".$groupId;
+  // Case I want all scorm that not is restricted by groups
+  if ($groupId == 'todos') {
+    $restriction_group = 'true';
+  }
 
-    $user_lis = $DB->get_records_sql($sql);
+  $sql = " SELECT u.id, sct.id as sct_id, gm.id as curosmod_id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname, sct.value
+            FROM {groups_members} gm
+            INNER JOIN {groups} g ON g.id = gm.groupid
+            INNER JOIN {scorm_scoes_track} sct ON sct.userid = gm.userid
+            INNER JOIN {user} u ON sct.userid = u.id
+	          WHERE ".$restriction_group." AND sct.scormid = ".$scormId." AND sct.element = 'cmi.suspend_data'";
 
-    $user_list = array();
-    foreach ($user_lis as $key => $value) {
-    	$user_list[$key] = $value->userid;
-    }
+  $user_list = $DB->get_records_sql($sql);
+/*
+  $sql = " SELECT u.id, gm.id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name
+            FROM {groups_members} gm
+            INNER JOIN {groups} g ON g.id = gm.groupid
+            INNER JOIN {user} u ON gm.userid = u.id
 
-    $sql = "SELECT sct.id, sct.userid, sct.value
-        FROM {scorm_scoes_track} sct
-		WHERE sct.scormid = " . $scormId . " AND sct.element = 'cmi.suspend_data'";
+            INNER JOIN {role_assignments} ra ON ra.userid = u.id
+            INNER JOIN {context} c ON c.id = ra.contextid
+            INNER JOIN {course} co ON c.instanceid = co.id
+            WHERE co.id = ".$courseid." AND ".$restriction_group;
 
-    $user_data_scorm = $DB->get_records_sql($sql);*/
+  $user_list_rest = $DB->get_records_sql($sql);
 
-    $sql = "SELECT u.id, sct.id as sct_id, gm.id as curosmod_id, u.username, u.lastname, u.firstname, u.institution, u.email, g.name as groupname, sct.value
-        FROM {groups_members} gm
-        INNER JOIN {groups} g ON g.id = gm.groupid
-        INNER JOIN {scorm_scoes_track} sct ON sct.userid = gm.userid
-        INNER JOIN {user} u ON sct.userid = u.id
-		WHERE gm.groupid = " . $groupId . " AND sct.scormid = " . $scormId. " AND sct.element = 'cmi.suspend_data'";
-
-    $user_lis = $DB->get_records_sql($sql);
-
-    return   $user_lis;
-
+  foreach ($user_list_rest as $key => $value) {
+    $value->sct_id = '';
+    $value->curosmod_id = '';
+    $value->groupname = '';
+    $value->value = '';
+    //var_dump($value->);
+    $user_list[] = $value;
+  }
+*/
+  //var_dump($user_list);
+  return   $user_list;
 
 }
 

@@ -1,28 +1,26 @@
 define(['jquery'], function($) {
-  function init(){
+    function init(){
     $(document).ready(
-      function(){
-        
+
+        function(){
+
             $("#menugroup").change(function () {
-                 $("#menugroup option:selected").each(function () {
-                  var groupid=$(this).val();
-                  var courseid=$("#courseidd").val();
-                  //console.log(groupid);
-                  //console.log(courseid);
-                  $.post("/blocks/scorm_report/scormList.php", { groupid: groupid, courseid:courseid }, function(data){
-                  $("#menuscorm").html(data);
-                  });                   
-              });
+                $("#menugroup option:selected").each(function () {
+                    var groupid=$(this).val();
+                    var courseid=$("#courseidd").val();
+                    $.post("/blocks/scorm_report/scormList.php", { groupid: groupid, courseid:courseid }, function(data){
+                        $("#menuscorm").html(data);
+                    });                   
+                });
             });
 
-      }
-
+        }
 
     );
-  }
-  return {
-    init:init
-  };
+    }
+    return {
+        init:init
+    };
 
 });
 
